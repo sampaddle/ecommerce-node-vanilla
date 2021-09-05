@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main>
+      <div class="jumbotron">
+        <h1>Welcome to Sassy Solutions</h1>
+        <p>Buy one of our products</p>
+
+        <h2>Products</h2>
+        <div class="d-flex">
+          <!-- Begin product card-->
+          <% products.forEach(function(product) { %>
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text"><%= product.description %></p>
+              <p><%= product.price %></p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+          <% }); %>
+          <!-- End product card -->
+        </div>
+      </div>
+    </main>
+
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>
