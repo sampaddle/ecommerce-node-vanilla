@@ -5,10 +5,10 @@
   </head>
   <body class="container">
     <header><%- include('../partials/header'); %></header>
-
+    <div><%- include('../partials/cart'); %></div>
     <main>
       <div class="jumbotron">
-        <h1>Welcome to Sassy Solutions</h1>
+        <h1>Welcome to our shop</h1>
         <p>Buy one of our products</p>
 
         <h2>Products</h2>
@@ -20,7 +20,9 @@
               <h5 class="card-title"><%= product.name %></h5>
               <p class="card-text"><%= product.description %></p>
               <p><%= product.price %></p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <a href="#" id="<%= product.product_id %>" class="btn btn-primary"
+                >Add to basket</a
+              >
             </div>
           </div>
           <% }); %>
@@ -30,5 +32,6 @@
     </main>
 
     <footer><%- include('../partials/footer'); %></footer>
+    <script src="scripts/cart.js" defer></script>
   </body>
 </html>

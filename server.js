@@ -2,13 +2,16 @@ const { response } = require("express");
 const logger = require("morgan");
 const express = require("express");
 const products = require("./products.js");
-console.log(products.catalogue);
+// console.log(products.catalogue);
 
 // create instance of express app
 const app = express();
 
 // logs activity to the console e.g. GET requests
 app.use(logger("dev"));
+// Used to parse JSON bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: false })); //Parse URL-encoded bodies
 
 // serve js and html in ejs
 app.set("view engine", "ejs");
@@ -28,6 +31,16 @@ app.get("/", function (req, res) {
 // about route
 app.get("/about", function (req, res) {
   res.render("pages/about.ejs");
+});
+
+app.post("/products", function (req, res) {
+  console.log(req.body.id);
+  console.log(products.catalogue);
+  const result = products.catalogue.filter(
+    (product) => product.product_id == req.body.id
+  );
+  console.log(result[0]);
+  res.send({ product: result[0] });
 });
 
 var port = 3000;
