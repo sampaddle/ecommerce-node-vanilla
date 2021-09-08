@@ -36,10 +36,12 @@ app.get("/about", function (req, res) {
 app.post("/products", function (req, res) {
   console.log(req.body.id);
   console.log(products.catalogue);
+  // find the matching product from array
   const result = products.catalogue.filter(
     (product) => product.product_id == req.body.id
   );
   console.log(result[0]);
+  // send back product
   res.send({ product: result[0] });
 });
 
