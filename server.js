@@ -33,6 +33,11 @@ app.get("/about", function (req, res) {
   res.render("pages/about.ejs");
 });
 
+// cart route
+app.get("/cart", function (req, res) {
+  res.render("pages/cart.ejs");
+});
+
 app.post("/products", function (req, res) {
   console.log(req.body.id);
   console.log(products.catalogue);

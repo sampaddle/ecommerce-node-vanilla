@@ -32,8 +32,10 @@ window.onload = function () {
       // fillCart(restoredObjects)
     }
   }
-
+  // get the cart data on pageload ready for use
   fetchStoredCart();
+
+  // ------ HOME PAGE DOM MANIPULATION ------ //
 
   // add product 1 to the cart
   const product_1_btn = document.getElementById("PR1");
@@ -55,6 +57,8 @@ window.onload = function () {
 
   const cart = document.getElementById("cart");
 
+  // ------- END HOME PAGE DOM MANIPULATION ------ //
+
   function getProductInfo(id) {
     // request product data from backend using ID
     fetch("http://localhost:3000/products", {
@@ -71,10 +75,6 @@ window.onload = function () {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        // if localstorage is empty at first, store the item
-        // if localstorage is not empty
-        // push new item to cart array
-        // restore it in local storage
         console.log(cartData);
         addToStorage(data);
       });
@@ -85,7 +85,12 @@ window.onload = function () {
     cartData.push(data);
     // add updated cart array to storage
     localStorage.setItem("cart", JSON.stringify(cartData));
+    // leave the duplicates in the array. These will be used to calculate quantities
   }
+
+  // --------- CART PAGE DOM MANIPULATION ------ //
+
+  // ---------- END CART PAGE DOM MANIPULATION ------ //
 };
 
 // initialise array in localstorage and test
