@@ -37,12 +37,18 @@ app.post("/products", function (req, res) {
   console.log(req.body.id);
   console.log(products.catalogue);
   // find the matching product from array
-  const result = products.catalogue.filter(
+  let result = products.catalogue.filter(
     (product) => product.product_id == req.body.id
   );
   console.log(result[0]);
+  result = result[0];
   // send back product
-  res.send({ product: result[0] });
+  res.send({
+    description: result.description,
+    name: result.name,
+    price: result.price,
+    product_id: result.product_id,
+  });
 });
 
 var port = 3000;

@@ -19,9 +19,38 @@
 // the populate basket function should always clear the basket before it populates it
 
 window.onload = function () {
+  // initialise the cart
+  let cartData = [];
+
+  function fetchStoredCart() {
+    // check local storage for cart items, fill cart if existing
+    if (localStorage.cart) {
+      let restoredObjects = localStorage.getItem("cart");
+      restoredObjects = JSON.parse(restoredObjects);
+      console.log(restoredObjects);
+      cartData = restoredObjects;
+      // fillCart(restoredObjects)
+    }
+  }
+
+  fetchStoredCart();
+
+  // add product 1 to the cart
   const product_1_btn = document.getElementById("PR1");
   product_1_btn.addEventListener("click", () => {
     getProductInfo("PR1");
+  });
+
+  // add product 2 to the cart
+  const product_2_btn = document.getElementById("PR2");
+  product_2_btn.addEventListener("click", () => {
+    getProductInfo("PR2");
+  });
+
+  // add product 3 to the cart
+  const product_3_btn = document.getElementById("PR3");
+  product_3_btn.addEventListener("click", () => {
+    getProductInfo("PR3");
   });
 
   const cart = document.getElementById("cart");
@@ -44,12 +73,18 @@ window.onload = function () {
         console.log(data);
         // if localstorage is empty at first, store the item
         // if localstorage is not empty
-        // pull the item from localstorage
-        // stringify the new item
-        // combine the two into a new string
-        // put the new string in localstorage
-        window.localStorage.setItem("cart", JSON.stringify(data));
+        // push new item to cart array
+        // restore it in local storage
+        console.log(cartData);
+        addToStorage(data);
       });
+  }
+
+  function addToStorage(data) {
+    // add data to cart array
+    cartData.push(data);
+    // add updated cart array to storage
+    localStorage.setItem("cart", JSON.stringify(cartData));
   }
 };
 
