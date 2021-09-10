@@ -87,10 +87,4 @@ window.onload = function () {
     localStorage.setItem("cart", JSON.stringify(cartData));
     // leave the duplicates in the array. These will be used to calculate quantities
   }
-
-  // --------- CART PAGE DOM MANIPULATION ------ //
-
-  // ---------- END CART PAGE DOM MANIPULATION ------ //
 };
-
-// initialise array in localstorage and test
