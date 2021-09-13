@@ -62,7 +62,7 @@ function populateCart() {
   //   console.log(product1Count, product2Count, product3Count);
 }
 
-function buildCartItem(product, countID) {
+function buildCartItem(product) {
   const cartItem = document.createElement("div");
   cartItem.innerHTML = `<div class="row border-top border-bottom">
             <div class="row main align-items-center">
@@ -75,11 +75,29 @@ function buildCartItem(product, countID) {
                 ><a href="#" id="plusQuantity${product.product_id}">+</a>
             </div>
             <div class="col">
-                &pound; ${product.price} <span class="close">&#10005;</span>
+                &pound; ${product.price} <span id="delete${product.product_id}" class="close">&#10005;</span>
             </div>
             </div>
             </div>`;
   cartContainer.appendChild(cartItem);
+  // add delete functionality
+  const deleteBtn = document.getElementById(`delete${product.product_id}`);
+  deleteBtn.addEventListener("click", () => {
+    //loop through cartData
+    // if a match is found with the product ID, delete from array
+    for (let i = 0; i < cartData.length; i++) {
+      if (cartData[i].product_id === product.product_id) {
+        console.log(cartData);
+        cartData.splice(i, 1);
+        console.log(cartData);
+      }
+    }
+    // updateLocalStorage
+    saveCartQuantityUpdate();
+    // reload page
+    location.reload();
+  });
+  // add quantity subtract functionality
   const minus = document.getElementById(`minusQuantity${product.product_id}`);
   minus.addEventListener("click", () => {
     const quantity = document.getElementById(`${product.product_id}`);
@@ -103,8 +121,9 @@ function buildCartItem(product, countID) {
     // }
     console.log(cartData);
     calculateTotal(cartData);
+    saveCartQuantityUpdate();
   });
-
+  // add quantity addition functionality
   const plus = document.getElementById(`plusQuantity${product.product_id}`);
   plus.addEventListener("click", () => {
     const quantity = document.getElementById(`${product.product_id}`);
@@ -126,7 +145,7 @@ function buildCartItem(product, countID) {
     // update the basket total
     calculateTotal(cartData);
     // OPTIONAL TODO: need to update the localStorage with this count info.
-    // cartTotal
+    saveCartQuantityUpdate();
   });
 }
 
@@ -136,6 +155,10 @@ function updateCartQuantity(id, quantity) {
 }
 
 populateCart();
+
+function saveCartQuantityUpdate() {
+  localStorage.setItem("cart", JSON.stringify(cartData));
+}
 
 // keep a count of each time you see a certain product
 // for product that has a count of 0, build a new line item
