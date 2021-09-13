@@ -81,7 +81,7 @@ function buildCartItem(product, countID) {
                 ><a href="#" id="plusQuantity${product.product_id}">+</a>
             </div>
             <div class="col">
-                &euro; ${product.price} <span class="close">&#10005;</span>
+                &pound; ${product.price} <span class="close">&#10005;</span>
             </div>
             </div>
             </div>`;
@@ -109,7 +109,9 @@ function buildCartItem(product, countID) {
   const plus = document.getElementById(`plusQuantity${product.product_id}`);
   plus.addEventListener("click", () => {
     const quantity = document.getElementById(`${product.product_id}`);
+    // set new quantity to be displayed
     let productCount = parseInt(quantity.textContent) + 1;
+    // update the DOM
     quantity.innerHTML = productCount;
     // set the global variable for the product count
     if (countID == 1) {
@@ -121,8 +123,10 @@ function buildCartItem(product, countID) {
     if (countID == 3) {
       product3Count = productCount;
     }
+    // update the basket total
     calculateTotal();
     // OPTIONAL TODO: need to update the localStorage with this count info.
+    // cartTotal
   });
 }
 
@@ -163,9 +167,22 @@ function calculateTotal() {
   product3Total = product3Count * product3Price;
   console.log(product3Total);
   grandTotal = product1Total + product2Total + product3Total;
+  grandTotal = round(grandTotal);
   console.log(grandTotal);
   total.innerHTML = `&pound; ${grandTotal}`;
   finalTotal.innerHTML = `&pound; ${grandTotal}`;
 }
 
+// round number to 2dp
+function round(num) {
+  var m = Number((Math.abs(num) * 100).toPrecision(15));
+  return (Math.round(m) / 100) * Math.sign(num);
+}
+
+// when user clicks checkout button
+// call pay link API, passing in grandTotal
+// passthrough cart data (need to update localStorage with this beforehand)
+// use this to create an inline checkout below
+// experiment with passing in different fields
+// once the purchase goes through, need to receive webhook data at an endpoint
 // ---------- END CART PAGE DOM MANIPULATION ------ //

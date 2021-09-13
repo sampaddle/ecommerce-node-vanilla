@@ -22,16 +22,18 @@ window.onload = function () {
   // initialise the cart
   let cartData = [];
 
-  // function fetchStoredCart() {
-  //   // check local storage for cart items, fill cart if existing
-  //   if (localStorage.cart) {
-  //     let restoredObjects = localStorage.getItem("cart");
-  //     restoredObjects = JSON.parse(restoredObjects);
-  //     console.log(restoredObjects);
-  //     cartData = restoredObjects;
-  //     // fillCart(restoredObjects)
-  //   }
-  // }
+  // FOR SOME REASON THIS ONLY WORKS CORRECTLY WHEN LOADED IN THIS JS DOC.
+  // LOADING FROM FUNCTIONS.JS CAUSES THE CARTDATA TO RESET WHEN NEW BUTTON IS CLICKED
+  function fetchStoredCart() {
+    // check local storage for cart items, fill cart if existing
+    if (localStorage.cart) {
+      let restoredObjects = localStorage.getItem("cart");
+      restoredObjects = JSON.parse(restoredObjects);
+      console.log(restoredObjects);
+      cartData = restoredObjects;
+      // fillCart(restoredObjects)
+    }
+  }
   // get the cart data on pageload ready for use
   fetchStoredCart();
 
@@ -81,10 +83,29 @@ window.onload = function () {
   }
 
   function addToStorage(data) {
-    // add data to cart array
-    cartData.push(data);
+    console.log(cartData);
+    // if cartData is an empty array, push the item
+    if (cartData === []) {
+      cartData.push(data);
+    }
+    // cehck if the product is already in the cart array
+    if (cartData.some((product) => product.product_id === data.product_id)) {
+      // if product already in the cart, find it and update quantity
+      for (let i = 0; i < cartData.length; i++) {
+        if (cartData[i].product_id === data.product_id) {
+          console.log("match found");
+          cartData[i].cart_quantity = cartData[i].cart_quantity + 1;
+          console.log(cartData);
+        }
+      }
+      console.log("Product already in cart, updating quantity");
+    } else {
+      // if it's not in the cart, push to the cart
+      console.log("product not already in cart, adding now");
+      cartData.push(data);
+    }
+
     // add updated cart array to storage
     localStorage.setItem("cart", JSON.stringify(cartData));
-    // leave the duplicates in the array. These will be used to calculate quantities
   }
 };

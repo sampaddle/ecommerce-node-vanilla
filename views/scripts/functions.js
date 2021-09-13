@@ -3,8 +3,8 @@ function fetchStoredCart() {
   if (localStorage.cart) {
     let restoredObjects = localStorage.getItem("cart");
     restoredObjects = JSON.parse(restoredObjects);
-    console.log(restoredObjects);
     cartData = restoredObjects;
+    console.log(cartData);
     // fillCart(restoredObjects)
   }
 }

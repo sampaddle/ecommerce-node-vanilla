@@ -4,18 +4,21 @@ const catalogue = [
     price: 5.99,
     description: "This is product number 1",
     product_id: "PR1",
+    cart_quantity: 1,
   },
   {
     name: "Product 2",
     price: 10.99,
     description: "This is product number 2",
     product_id: "PR2",
+    cart_quantity: 1,
   },
   {
     name: "Product 3",
     price: 15.99,
     description: "This is product number 3",
     product_id: "PR3",
+    cart_quantity: 1,
   },
 ];
 

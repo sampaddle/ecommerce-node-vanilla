@@ -53,6 +53,7 @@ app.post("/products", function (req, res) {
     name: result.name,
     price: result.price,
     product_id: result.product_id,
+    cart_quantity: result.cart_quantity,
   });
 });
 
