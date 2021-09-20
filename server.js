@@ -1,8 +1,15 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+console.log(process.env.TEST);
+console.log(process.env.VENDOR_ID);
+console.log(process.env.VENDOR_AUTH_CODE);
 const { response } = require("express");
 const logger = require("morgan");
 const express = require("express");
 const products = require("./products.js");
 // console.log(products.catalogue);
+const axios = require("axios");
 
 // create instance of express app
 const app = express();
@@ -38,6 +45,13 @@ app.get("/cart", function (req, res) {
   res.render("pages/cart.ejs");
 });
 
+app.post("/checkout", function (req, res) {
+  console.log(req.body);
+  axios.post(
+    "https://sandbox-vendors.paddle.com/api/2.0/product/generate_pay_link"
+  );
+});
+
 app.post("/products", function (req, res) {
   console.log(req.body.id);
   console.log(products.catalogue);
@@ -57,8 +71,8 @@ app.post("/products", function (req, res) {
   });
 });
 
-var port = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(port, function () {
-  console.log(`App running on port ${port}`);
+app.listen(PORT, function () {
+  console.log(`App running on port ${PORT}`);
 });

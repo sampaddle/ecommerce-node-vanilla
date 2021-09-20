@@ -233,7 +233,36 @@ function round(num) {
 }
 
 // when user clicks checkout button
+const checkoutBtn = document.getElementById("checkOutBtn");
+
+checkoutBtn.addEventListener("click", () => getPayLink());
 // call pay link API, passing in grandTotal
+function getPayLink() {
+  fetch("http://localhost:3000/checkout", {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify({
+      total: grandTotal,
+    }), // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+Paddle.Checkout.open({
+  method: "inline",
+  product: 15246, // Replace with your Product or Plan ID
+  allowQuantity: false,
+  disableLogout: true,
+  frameTarget: "checkout-container", // The className of your checkout <div>
+  frameInitialHeight: 416,
+  frameStyle:
+    "width:100%; min-width:312px; background-color: transparent; border: none;", // Please ensure the minimum width is kept at or above 286px with checkout padding disabled, or 312px with checkout padding enabled. See "General" section under "Branded Inline Checkout" below for more information on checkout padding.
+});
 // passthrough cart data (need to update localStorage with this beforehand)
 // use this to create an inline checkout below
 // experiment with passing in different fields
