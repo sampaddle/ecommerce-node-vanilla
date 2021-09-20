@@ -47,9 +47,25 @@ app.get("/cart", function (req, res) {
 
 app.post("/checkout", function (req, res) {
   console.log(req.body);
-  axios.post(
-    "https://sandbox-vendors.paddle.com/api/2.0/product/generate_pay_link"
-  );
+  axios
+    .post(
+      "https://sandbox-vendors.paddle.com/api/2.0/product/generate_pay_link",
+      {
+        vendor_id: process.env.VENDOR_ID,
+        vendor_auth_code: process.env.VENDOR_AUTH_CODE,
+        product_id: 15246,
+        prices: [`USD:${req.body.total}`],
+      }
+    )
+    .then(function (response) {
+      console.log(response.data);
+      res.send({
+        url: response.data.response.url,
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
 
 app.post("/products", function (req, res) {

@@ -249,20 +249,28 @@ function getPayLink() {
     body: JSON.stringify({
       total: grandTotal,
     }), // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+  })
+    .then(function (response) {
+      return response.json(); // parses JSON response into native JavaScript objects
+    })
+    .then(function (data) {
+      console.log(data);
+      Paddle.Checkout.open({
+        method: "inline",
+        product: 15246, // Replace with your Product or Plan ID
+        override: data.url,
+        allowQuantity: false,
+        disableLogout: true,
+        frameTarget: "checkout-container", // The className of your checkout <div>
+        frameInitialHeight: 416,
+        frameStyle:
+          "width:100%; min-width:312px; background-color: transparent; border: none;", // Please ensure the minimum width is kept at or above 286px with checkout padding disabled, or 312px with checkout padding enabled. See "General" section under "Branded Inline Checkout" below for more information on checkout padding.
+      });
+    });
 }
 
-Paddle.Checkout.open({
-  method: "inline",
-  product: 15246, // Replace with your Product or Plan ID
-  allowQuantity: false,
-  disableLogout: true,
-  frameTarget: "checkout-container", // The className of your checkout <div>
-  frameInitialHeight: 416,
-  frameStyle:
-    "width:100%; min-width:312px; background-color: transparent; border: none;", // Please ensure the minimum width is kept at or above 286px with checkout padding disabled, or 312px with checkout padding enabled. See "General" section under "Branded Inline Checkout" below for more information on checkout padding.
-});
+// it works! but the cart data is not displayed in the checkout or in the confirmation email...
+
 // passthrough cart data (need to update localStorage with this beforehand)
 // use this to create an inline checkout below
 // experiment with passing in different fields
