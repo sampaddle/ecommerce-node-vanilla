@@ -10,7 +10,17 @@
 <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
 <script type="text/javascript">
   Paddle.Environment.set("sandbox");
-  Paddle.Setup({ vendor: 2714 });
+  Paddle.Setup({
+    vendor: 2714,
+    eventCallback: function (data) {
+      // The data.event will specify the event type
+      if (data.event === "Checkout.Loaded") {
+        console.log(data.eventData); // Data specifics on the event
+      } else if (data.event === "Checkout.Close") {
+        console.log(data.eventData); // Data specifics on the event
+      }
+    },
+  });
 </script>
 <style>
   body {

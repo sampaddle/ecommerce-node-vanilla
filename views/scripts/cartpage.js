@@ -195,33 +195,26 @@ function calculateTotal(cartData) {
   for (let i = 0; i < cartData.length; i++) {
     if (cartData[i].product_id === "PR1") {
       product1Quantity = cartData[i].cart_quantity;
-      console.log(product1Quantity);
       product1Price = cartData[i].price;
-      console.log(product1Price);
     }
     if (cartData[i].product_id === "PR2") {
       product2Quantity = cartData[i].cart_quantity;
-      console.log(product2Quantity);
       product2Price = cartData[i].price;
-      console.log(product2Price);
     }
     if (cartData[i].product_id === "PR3") {
       product3Quantity = cartData[i].cart_quantity;
-      console.log(product3Quantity);
       product3Price = cartData[i].price;
-      console.log(product3Price);
     }
   }
 
   product1Total = product1Quantity * product1Price;
-  console.log(product1Total);
+
   product2Total = product2Quantity * product2Price;
-  console.log(product2Total);
+
   product3Total = product3Quantity * product3Price;
-  console.log(product3Total);
+
   grandTotal = product1Total + product2Total + product3Total;
   grandTotal = round(grandTotal);
-  console.log(grandTotal);
   total.innerHTML = `&pound; ${grandTotal}`;
   finalTotal.innerHTML = `&pound; ${grandTotal}`;
 }
@@ -248,6 +241,8 @@ function getPayLink() {
     },
     body: JSON.stringify({
       total: grandTotal,
+      passthrough: createPassthrough(),
+      breakdown: createBreakdown(),
     }), // body data type must match "Content-Type" header
   })
     .then(function (response) {
@@ -269,6 +264,23 @@ function getPayLink() {
     });
 }
 
+function createPassthrough() {
+  const results = cartData.map(
+    (cartItem) =>
+      `product_id: ${cartItem.product_id}, quantity: ${cartItem.cart_quantity}`
+  );
+  return results;
+}
+createPassthrough();
+
+function createBreakdown() {
+  const results = cartData.map(
+    (cartItem) => `${cartItem.name} x ${cartItem.cart_quantity}`
+  );
+  console.log(results);
+  return results;
+}
+createBreakdown();
 // it works! but the cart data is not displayed in the checkout or in the confirmation email...
 
 // passthrough cart data (need to update localStorage with this beforehand)

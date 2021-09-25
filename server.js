@@ -47,6 +47,8 @@ app.get("/cart", function (req, res) {
 
 app.post("/checkout", function (req, res) {
   console.log(req.body);
+  console.log(req.body.passthrough.join(", "));
+  console.log(req.body.breakdown.join(", "));
   axios
     .post(
       "https://sandbox-vendors.paddle.com/api/2.0/product/generate_pay_link",
@@ -55,6 +57,10 @@ app.post("/checkout", function (req, res) {
         vendor_auth_code: process.env.VENDOR_AUTH_CODE,
         product_id: 15246,
         prices: [`USD:${req.body.total}`],
+        title: "Ecommerce Purchase",
+        quantity_variable: 0,
+        custom_message: req.body.breakdown.join(", "),
+        passthrough: req.body.passthrough.join(", "),
       }
     )
     .then(function (response) {
